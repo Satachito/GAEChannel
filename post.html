@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head></head>
+<body>
+	<script type='text/javascript' src='/_ah/channel/jsapi'></script>
+
+	<script>
+		new goog.appengine.Channel( {{.Token}} ).open(
+			{	onopen		: function() {
+					document.getElementById( 'Content' ).innerHTML += '{{.Token}}<br />';　
+				}
+			,	onmessage	: function( p ) {
+					document.getElementById( 'Content' ).innerHTML += p.data + '<br />';　
+				}
+			,	onerror		: function( p ) {
+					alert( 'ERROR:' + p.description );
+				}
+			,	onclose		: function() {
+					//	UC
+				}
+			}
+		);
+		function
+		Send() {
+			var wHR = new XMLHttpRequest();
+			wHR.onload = function( e ) {
+				if ( wHR.readyState === 4 ) {
+					if ( wHR.status === 200 ) {
+					} else {
+						alert( wHR.status );
+					}
+				}
+			}
+			wHR.open(
+				'PUT'
+			,	'/?Message=' + document.getElementById( 'Message' ).value + '&ID=' + {{.ID}}
+			,	true
+			);
+			wHR.send();
+		}
+	</script>
+
+	<input type='text' id='Message' />
+	<input type='button' value='OK' onclick='Send()' />
+	<div id='Content'></div>
+</body>
+</html>
+
